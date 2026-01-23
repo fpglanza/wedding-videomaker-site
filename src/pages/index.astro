@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroMedia from "../components/HeroMedia.astro";
+import { site } from "../config/site";
+---
+
+<BaseLayout
+  title="Home"
+  description="Wedding films emozionali e cinematografici. Un racconto autentico, elegante, senza tempo."
+>
+  <!-- HERO (video vibe placeholder) -->
+  <section class="relative min-h-[86svh] flex items-end">
+    <HeroMedia videoSrc={import.meta.env.PUBLIC_HERO_VIDEO_URL ?? ""} posterSrc={import.meta.env.PUBLIC_HERO_POSTER_URL ?? ""} />
+
+    <div class="section-pad relative w-full pb-14 sm:pb-20">
+      <div class="max-w-2xl motion-safe:animate-[fadeUp_.35s_ease-out_both]">
+        <p class="text-xs tracking-[0.22em] uppercase text-white/70">Wedding films • Italia</p>
+
+        <h1 class="mt-4 text-4xl sm:text-6xl font-semibold tracking-tight text-white">
+          Racconto il vostro giorno<br class="hidden sm:block" />
+          con un cuore cinematografico.
+        </h1>
+
+        <p class="mt-5 max-w-prose text-white/75">
+          Un’esperienza visiva, essenziale e intensa. Niente pose forzate: solo voi, la vostra energia, e la storia che resta.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a
+            class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-zinc-900 transition duration-200 hover:opacity-90"
+            href={site.cta.primaryHref}
+          >
+            {site.cta.primaryLabel}
+          </a>
+          <a
+            class="inline-flex items-center justify-center rounded-full border border-white/35 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-white/10"
+            href="/portfolio"
+          >
+            Guarda le storie
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW I TELL YOUR STORIES -->
+  <section class="section-pad py-14 sm:py-20">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">Come vi racconto</h2>
+      <p class="mt-5 text-zinc-700 max-w-prose">
+        Ogni film nasce dall’ascolto: ritmo, sguardi, dettagli. Un racconto editoriale, elegante, costruito sulla vostra verità.
+      </p>
+
+      <div class="mt-8">
+        <a class="inline-flex items-center gap-2 text-sm font-medium text-zinc-900 hover:opacity-70 transition duration-200"
+           href="/come-vi-racconto">
+          Scopri l’approccio <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOUR STORIES -->
+  <section class="section-pad py-14 sm:py-20 border-t border-zinc-200">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div class="max-w-2xl motion-safe:animate-[fadeUp_.35s_ease-out_both]">
+        <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">Le vostre storie</h2>
+        <p class="mt-5 text-zinc-700 max-w-prose">
+          Sei racconti per entrare nel ritmo. Ogni video è una storia: non una lista di momenti.
+        </p>
+      </div>
+
+      <a class="inline-flex items-center gap-2 text-sm font-medium text-zinc-900 hover:opacity-70 transition duration-200"
+         href="/portfolio">
+        Vai al portfolio <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section-pad py-14 sm:py-20 border-t border-zinc-200">
+    <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">Parole vere</h2>
+
+    <div class="mt-10 grid gap-6 lg:grid-cols-3">
+      {[
+        {
+          quote: "Ci siamo rivisti in ogni dettaglio. Un film che sembra respirare con noi.",
+          who: "A. & L.",
+        },
+        {
+          quote: "Presenza discreta, sensibilità enorme. Il montaggio ci ha commossi.",
+          who: "G. & M.",
+        },
+        {
+          quote: "Non è un video: è la nostra storia, con un’eleganza che resta.",
+          who: "E. & D.",
+        },
+      ].map((t) => (
+        <figure class="rounded-3xl border border-zinc-200 p-7 sm:p-8">
+          <blockquote class="text-zinc-800 leading-relaxed">“{t.quote}”</blockquote>
+          <figcaption class="mt-5 text-sm text-zinc-500">{t.who}</figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <p class="mt-6 text-sm text-zinc-500">
+      (In futuro: opzionale integrazione di piccole video-reazioni, sempre lazy-loaded.)
+    </p>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="section-pad py-14 sm:py-20 border-t border-zinc-200">
+    <div class="rounded-3xl bg-zinc-950 px-7 py-10 sm:px-10 sm:py-12">
+      <div class="max-w-2xl motion-safe:animate-[fadeUp_.35s_ease-out_both]">
+        <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+          Se vi riconoscete in questo ritmo, parliamone.
+        </h2>
+        <p class="mt-5 text-white/75 max-w-prose">
+          I dettagli (e le opzioni) si raccontano meglio in una call. Niente listini qui: solo una conversazione semplice.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a
+            class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-zinc-900 transition duration-200 hover:opacity-90"
+            href={site.cta.primaryHref}
+          >
+            {site.cta.primaryLabel}
+          </a>
+          <a
+            class="inline-flex items-center justify-center rounded-full border border-white/25 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-white/10"
+            href="/contatti"
+          >
+            Contatti
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

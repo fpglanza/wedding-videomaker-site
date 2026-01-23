@@ -1,0 +1,38 @@
+---
+type Props = {
+  videoSrc?: string;     // e.g. "/media/hero.mp4" (optional)
+  posterSrc?: string;    // e.g. "/media/hero-poster.jpg" (optional)
+};
+
+const { videoSrc = "", posterSrc = "" } = Astro.props;
+const hasVideo = Boolean(videoSrc && videoSrc.trim().length > 0);
+---
+
+<div class="absolute inset-0">
+  {hasVideo ? (
+    <>
+      <video
+        class="absolute inset-0 h-full w-full object-cover"
+        src={videoSrc}
+        poster={posterSrc || undefined}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      ></video>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-black/15"></div>
+    </>
+  ) : (
+    <>
+      <div class="absolute inset-0 bg-zinc-950"></div>
+      <div
+        class="absolute inset-0 opacity-70"
+        style="background:
+          radial-gradient(1200px circle at 20% 20%, rgba(255,255,255,0.10), transparent 55%),
+          radial-gradient(900px circle at 80% 30%, rgba(255,255,255,0.08), transparent 50%),
+          linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0.15));"
+      ></div>
+    </>
+  )}
+</div>

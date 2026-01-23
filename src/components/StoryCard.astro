@@ -1,0 +1,75 @@
+---
+type Props = {
+  href: string;
+  title: string;
+  excerpt: string;
+  location?: string;
+  dateLabel: string;
+  youtubeId: string;
+  poster?: string;
+  featured?: boolean;
+};
+
+const {
+  href,
+  title,
+  excerpt,
+  location = "",
+  dateLabel,
+  youtubeId,
+  poster = "",
+  featured = false,
+} = Astro.props;
+
+const thumb = poster && poster.trim().length > 0
+  ? poster
+  : `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`;
+
+const thumbFallback = `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
+---
+
+<a
+  href={href}
+  class="group block overflow-hidden rounded-3xl border border-zinc-200 bg-white transition duration-200 hover:bg-zinc-50"
+>
+  <div class="relative w-full" style="aspect-ratio: 16 / 9;">
+    <img
+      src={thumb}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class="absolute inset-0 h-full w-full object-cover transition duration-200 group-hover:scale-[1.01]"
+      onerror={`this.onerror=null;this.src='${thumbFallback}'`}
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-black/5"></div>
+
+    <div class="absolute left-5 right-5 bottom-5">
+      <div class="flex items-end justify-between gap-4">
+        <div class="min-w-0">
+          <h2 class="text-white text-lg sm:text-xl font-medium tracking-tight truncate">
+            {title}
+          </h2>
+          <p class="mt-1 text-white/75 text-sm line-clamp-2 max-w-prose">
+            {excerpt}
+          </p>
+        </div>
+
+        <div class="shrink-0 rounded-full bg-white/90 px-3 py-2 text-xs font-medium text-zinc-900 backdrop-blur">
+          Guarda →
+        </div>
+      </div>
+
+      <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-white/75">
+        {location ? <span>{location}</span> : null}
+        <span aria-hidden="true">•</span>
+        <span>{dateLabel}</span>
+        {featured ? (
+          <>
+            <span aria-hidden="true">•</span>
+            <span class="rounded-full border border-white/25 px-2 py-1">In evidenza</span>
+          </>
+        ) : null}
+      </div>
+    </div>
+  </div>
+</a>

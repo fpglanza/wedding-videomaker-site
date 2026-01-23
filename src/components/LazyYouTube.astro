@@ -1,0 +1,85 @@
+---
+type Props = {
+  youtubeId: string;
+  title?: string;
+  poster?: string; // optional custom poster image path
+};
+
+const { youtubeId, title = "Guarda il video", poster = "" } = Astro.props;
+
+const thumb = poster && poster.trim().length > 0
+  ? poster
+  : `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`;
+
+const thumbFallback = `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
+
+const embedSrc = `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`;
+
+const uid = `yt-${youtubeId}-${Math.random().toString(16).slice(2)}`;
+---
+
+<div class="rounded-3xl overflow-hidden border border-zinc-200 bg-zinc-950/5">
+  <div
+    class="relative w-full"
+    style="aspect-ratio: 16 / 9;"
+    data-yt-root
+    data-yt-id={uid}
+    data-yt-src={embedSrc}
+    aria-label={title}
+  >
+    <button
+      type="button"
+      class="group absolute inset-0 flex items-center justify-center"
+      data-yt-play
+      aria-label="Riproduci video"
+    >
+      <img
+        src={thumb}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-cover scale-[1.02]"
+        onerror={`this.onerror=null;this.src='${thumbFallback}'`}
+      />
+
+      <!-- subtle overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-black/10 transition duration-200 group-hover:from-black/55"></div>
+      <div class="absolute inset-0 opacity-[0.10] mix-blend-overlay pointer-events-none" style="background-image: radial-gradient(circle at 20% 10%, rgba(255,255,255,.25), transparent 45%), radial-gradient(circle at 80% 30%, rgba(255,255,255,.18), transparent 40%);"></div>
+
+      <!-- play button -->
+      <div class="relative flex items-center gap-2 rounded-full bg-white/90 backdrop-blur px-5 py-3 text-sm font-medium text-zinc-900 shadow-sm transition duration-200 group-hover:translate-y-[-1px] group-hover:bg-white">
+        <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-zinc-900 text-white text-xs">▶</span>
+        <span>Guarda</span>
+      </div>
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  // Minimal, dependency-free lazy YouTube
+  document.addEventListener("click", (e) => {
+    const btn = e.target && e.target.closest && e.target.closest("[data-yt-play]");
+    if (!btn) return;
+
+    const root = btn.closest("[data-yt-root]");
+    if (!root) return;
+
+    const src = root.getAttribute("data-yt-src");
+    if (!src) return;
+
+    const iframe = document.createElement("iframe");
+    iframe.setAttribute("src", src);
+    iframe.setAttribute("title", "YouTube video player");
+    iframe.setAttribute("frameborder", "0");
+    iframe.setAttribute(
+      "allow",
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    );
+    iframe.setAttribute("allowfullscreen", "");
+    iframe.className = "absolute inset-0 h-full w-full";
+
+    // Replace poster/button with iframe
+    root.innerHTML = "";
+    root.appendChild(iframe);
+  }, { passive: true });
+</script>

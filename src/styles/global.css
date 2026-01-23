@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Minimal premium baseline */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-white text-zinc-900;
+  }
+
+  /* Calm rhythm */
+  p {
+    @apply leading-relaxed;
+  }
+
+  /* Subtle selection */
+  ::selection {
+    @apply bg-zinc-900 text-white;
+  }
+
+  /* Focus visibility (accessible, minimal) */
+  :focus-visible {
+    @apply outline-none ring-2 ring-zinc-900 ring-offset-2 ring-offset-white;
+  }
+}
+
+@layer utilities {
+  /* Helps with cinematic sections */
+  .section-pad {
+    @apply px-5 sm:px-8 lg:px-12;
+  }
+}
+
+@layer utilities {
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}

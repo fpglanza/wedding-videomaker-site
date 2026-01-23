@@ -1,0 +1,88 @@
+---
+import { site } from "../config/site";
+
+const nav = [
+  { label: "Home", href: "/" },
+  { label: "Come vi racconto", href: "/come-vi-racconto" },
+  { label: "Engagement", href: "/servizi/engagement" },
+  { label: "Wedding Video", href: "/servizi/wedding-video" },
+  { label: "Le vostre storie", href: "/portfolio" },
+  { label: "Contatti", href: "/contatti" },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-zinc-200 bg-white/80 backdrop-blur">
+  <div class="section-pad h-16 flex items-center justify-between">
+    <a href="/" class="text-sm font-semibold tracking-tight text-zinc-900">
+      {site.name}
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-6 text-sm text-zinc-700">
+      {nav.map((item) => (
+        <a class="hover:text-zinc-900 transition duration-200" href={item.href}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        class="hidden sm:inline-flex items-center justify-center rounded-full bg-zinc-900 px-4 py-2 text-xs font-medium text-white transition duration-200 hover:opacity-90"
+        href={site.cta.primaryHref}
+      >
+        {site.cta.primaryLabel}
+      </a>
+
+      <!-- Mobile menu button -->
+      <button
+        type="button"
+        class="md:hidden inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs font-medium text-zinc-900 hover:bg-zinc-50 transition duration-200"
+        data-menu-btn
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        Menu
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div id="mobile-nav" class="md:hidden hidden border-t border-zinc-200 bg-white" data-menu-panel>
+    <div class="section-pad py-4 flex flex-col gap-3 text-sm text-zinc-800">
+      {nav.map((item) => (
+        <a class="py-2" href={item.href}>{item.label}</a>
+      ))}
+
+      <div class="pt-2">
+        <a
+          class="inline-flex w-full items-center justify-center rounded-full bg-zinc-900 px-5 py-3 text-sm font-medium text-white transition duration-200 hover:opacity-90"
+          href={site.cta.primaryHref}
+        >
+          {site.cta.primaryLabel}
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  const btn = document.querySelector("[data-menu-btn]");
+  const panel = document.querySelector("[data-menu-panel]");
+
+  if (btn && panel) {
+    btn.addEventListener("click", () => {
+      const isOpen = !panel.classList.contains("hidden");
+      panel.classList.toggle("hidden");
+      btn.setAttribute("aria-expanded", String(!isOpen));
+    });
+
+    // Close on navigation click (mobile)
+    panel.addEventListener("click", (e) => {
+      const a = e.target && e.target.closest && e.target.closest("a");
+      if (!a) return;
+      panel.classList.add("hidden");
+      btn.setAttribute("aria-expanded", "false");
+    });
+  }
+</script>
