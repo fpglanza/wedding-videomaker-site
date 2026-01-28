@@ -4,12 +4,25 @@ import HeroMedia from "../components/HeroMedia.astro";
 import { site } from "../config/site";
 import StoryCard from "../components/StoryCard.astro";
 import { getCollection } from "astro:content";
+import { home } from "../config/home";
 
 const stories = await getCollection("stories");
 const toDate = (d: unknown) => (d instanceof Date ? d : new Date(String(d)));
 const sorted = stories.slice().sort((a, b) => toDate(b.data.date).getTime() - toDate(a.data.date).getTime());
+const bySlug = new Map(sorted.map((s) => [s.slug, s]));
+
+const manual = home.homeStories
+  .map((slug) => bySlug.get(slug))
+  .filter(Boolean);
+
 const featured = sorted.filter((s) => s.data.featured).slice(0, 2);
-const picks = featured.length === 2 ? featured : sorted.slice(0, 2);
+
+const picks =
+  manual.length >= 2
+    ? manual.slice(0, 2)
+    : featured.length === 2
+      ? featured
+      : sorted.slice(0, 2);
 const formatIt = (d: Date) => d.toLocaleDateString("it-IT", { year: "numeric", month: "long", day: "2-digit" });
 ---
 
@@ -76,7 +89,6 @@ const formatIt = (d: Date) => d.toLocaleDateString("it-IT", { year: "numeric", m
     </div>
   </section>
 
-  <div class="border-t border-zinc-200"></div>
 
   <!-- YOUR STORIES -->
   <section class="section-pad py-16 sm:py-24">
@@ -111,7 +123,50 @@ const formatIt = (d: Date) => d.toLocaleDateString("it-IT", { year: "numeric", m
     </div>
   </section>
 
-  <div class="border-t border-zinc-200"></div>
+
+  <section class="section-pad py-16 sm:py-24">
+    <header class="max-w-2xl">
+      <p class="text-xs tracking-[0.22em] uppercase text-zinc-500">Servizi</p>
+      <h2 class="mt-4 text-2xl sm:text-3xl font-semibold tracking-tight">Scegliamo il modo migliore di raccontarvi</h2>
+      <p class="mt-5 text-zinc-700 max-w-prose">
+        Non troverete prezzi qui: preferisco spiegare opzioni e differenze in call, con calma.
+      </p>
+    </header>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <a class="rounded-3xl border border-zinc-200 p-6 hover:bg-zinc-50 transition duration-200" href="/servizi/engagement">
+        <div class="text-sm font-medium text-zinc-900">Engagement</div>
+        <div class="mt-2 text-sm text-zinc-600">Un preludio intimo, senza pose.</div>
+      </a>
+
+      <a class="rounded-3xl border border-zinc-200 p-6 hover:bg-zinc-50 transition duration-200" href="/servizi/wedding-video">
+        <div class="text-sm font-medium text-zinc-900">Wedding Video</div>
+        <div class="mt-2 text-sm text-zinc-600">Il film del giorno, con respiro.</div>
+      </a>
+
+      <a class="rounded-3xl border border-zinc-200 p-6 hover:bg-zinc-50 transition duration-200" href="/servizi/foto-video">
+        <div class="text-sm font-medium text-zinc-900">Photo + Video</div>
+        <div class="mt-2 text-sm text-zinc-600">L’offerta principale: uno sguardo unico.</div>
+      </a>
+    </div>
+
+    <div class="mt-10">
+      <a class="inline-flex items-center gap-2 text-sm font-medium text-zinc-900 hover:opacity-70 transition duration-200"
+        href="/servizi/wedding-story">
+        Approfondisci Wedding Story <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="mt-10">
+      <a
+        class="inline-flex items-center gap-2 text-sm font-medium text-zinc-900 hover:opacity-70 transition duration-200"
+        href={site.cta.primaryHref}
+      >
+        {site.cta.primaryLabel} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
 
   <!-- TESTIMONIALS -->
   <section class="section-pad py-16 sm:py-24">
@@ -123,9 +178,9 @@ const formatIt = (d: Date) => d.toLocaleDateString("it-IT", { year: "numeric", m
 
     <figure class="mt-10 max-w-3xl">
       <blockquote class="text-lg sm:text-xl leading-relaxed text-zinc-900">
-        “Ci siamo rivisti in ogni dettaglio. Un film che sembra respirare con noi.”
+        {home.testimonials[0].quote}
       </blockquote>
-      <figcaption class="mt-4 text-sm text-zinc-500">A. & L.</figcaption>
+      <figcaption class="mt-4 text-sm text-zinc-500">{home.testimonials[0].who}</figcaption>
 
       <div class="mt-8 flex gap-4 text-sm">
         <a class="text-zinc-900 hover:opacity-70 transition duration-200" href="/portfolio">

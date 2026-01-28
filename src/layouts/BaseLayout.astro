@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { site } from "../config/site";
 import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 
 type Props = {
   title?: string;
@@ -43,37 +44,6 @@ const fullTitle = title === site.name ? site.name : `${title} · ${site.name}`;
       <slot />
     </main>
 
-    <footer class="mt-20 border-t border-zinc-200">
-      <div class="section-pad py-10 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
-        <div class="max-w-md">
-          <p class="text-sm tracking-wide text-zinc-500">© {new Date().getFullYear()} {site.name}</p>
-          <p class="mt-3 text-sm text-zinc-700">
-            Un’esperienza editoriale, minimal e cinematografica. Prezzi e pacchetti si raccontano in call.
-          </p>
-        </div>
-
-        <div class="flex flex-col gap-3 sm:items-end">
-          <a
-            class="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-3 text-sm font-medium text-white transition duration-200 hover:opacity-90"
-            href={site.cta.primaryHref}
-          >
-            {site.cta.primaryLabel}
-          </a>
-
-          <a
-            class="inline-flex items-center justify-center rounded-full border border-zinc-300 px-5 py-3 text-sm font-medium text-zinc-900 transition duration-200 hover:bg-zinc-50"
-            href={site.cta.secondaryHref}
-          >
-            {site.cta.secondaryLabel}
-          </a>
-
-          <div class="flex gap-4 text-sm text-zinc-600">
-            {site.socials.instagram ? <a class="hover:text-zinc-900" href={site.socials.instagram}>Instagram</a> : null}
-            {site.socials.youtube ? <a class="hover:text-zinc-900" href={site.socials.youtube}>YouTube</a> : null}
-            <a class="hover:text-zinc-900" href="/work-with-us">Work with us</a>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <Footer />
   </body>
 </html>

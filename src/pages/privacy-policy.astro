@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { legal } from "../config/legal";
+---
+
+<BaseLayout title="Privacy Policy">
+  <section class="section-pad py-14 sm:py-20">
+    <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight">Privacy Policy</h1>
+    <p class="mt-5 max-w-prose text-zinc-700">
+      Questa pagina è un placeholder. Il testo definitivo va redatto con un consulente privacy/GDPR.
+    </p>
+
+    <div class="mt-10 max-w-prose text-sm text-zinc-700 space-y-3">
+      <p><strong>Titolare del trattamento:</strong> {legal.businessName}</p>
+      <p><strong>Email:</strong> <a class="underline" href={`mailto:${legal.email}`}>{legal.email}</a></p>
+      <p><strong>Sede:</strong> {legal.addressLine}</p>
+      <p><strong>P.IVA:</strong> {legal.vatNumber}</p>
+    </div>
+  </section>
+</BaseLayout>

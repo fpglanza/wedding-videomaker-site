@@ -1,0 +1,91 @@
+---
+import { site } from "../config/site";
+import { legal } from "../config/legal";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-zinc-200">
+  <div class="section-pad py-16 sm:py-20">
+    <!-- TOP -->
+    <div class="grid gap-12 lg:grid-cols-2">
+      <!-- Brand / Statement -->
+      <div class="max-w-md">
+        <p class="text-sm font-medium tracking-tight text-zinc-900">
+          {site.name}
+        </p>
+        <p class="mt-4 text-sm text-zinc-700">
+          Racconti di matrimonio essenziali e autentici.<br />
+          Senza pose forzate. Senza rumore.
+        </p>
+
+        <div class="mt-6">
+          <a
+            href={site.cta.primaryHref}
+            class="inline-flex items-center gap-2 text-sm font-medium text-zinc-900 hover:opacity-70 transition duration-200"
+          >
+            {site.cta.primaryLabel} <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="grid gap-8 sm:grid-cols-2">
+        <div>
+          <p class="text-xs tracking-[0.22em] uppercase text-zinc-500">Esplora</p>
+          <ul class="mt-4 space-y-3 text-sm">
+            <li><a class="hover:opacity-70 transition" href="/">Home</a></li>
+            <li><a class="hover:opacity-70 transition" href="/come-vi-racconto">Come vi racconto</a></li>
+            <li><a class="hover:opacity-70 transition" href="/portfolio">Le vostre storie</a></li>
+            <li><a class="hover:opacity-70 transition" href="/contatti">Contatti</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-xs tracking-[0.22em] uppercase text-zinc-500">Servizi</p>
+          <ul class="mt-4 space-y-3 text-sm">
+            <li><a class="hover:opacity-70 transition" href="/servizi/engagement">Engagement</a></li>
+            <li><a class="hover:opacity-70 transition" href="/servizi/wedding-video">Wedding Video</a></li>
+            <li><a class="hover:opacity-70 transition" href="/servizi/foto-video">Photo + Video</a></li>
+            <li><a class="hover:opacity-70 transition" href="/servizi/wedding-story">Wedding Story</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <!-- LEGAL -->
+    <div class="mt-16 border-t border-zinc-200 pt-8">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <p class="text-xs text-zinc-500">
+          © {year} {site.name} — Tutti i diritti riservati
+        </p>
+        <p class="text-xs text-zinc-500">
+          <a class="hover:text-zinc-900 transition" href={`mailto:${legal.email}`}>{legal.email}</a>
+        </p>
+
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-500">
+          <li>
+            <a class="hover:text-zinc-900 transition" href="/privacy-policy">
+              Privacy Policy
+            </a>
+          </li>
+          <li>
+            <a class="hover:text-zinc-900 transition" href="/cookie-policy">
+              Cookie Policy
+            </a>
+          </li>
+          <li>
+            <a class="hover:text-zinc-900 transition" href="/termini">
+              Termini e condizioni
+            </a>
+          </li>
+          <li>
+            <span class="text-zinc-400">
+              {legal.businessName} — P.IVA {legal.vatNumber}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
