@@ -2,6 +2,15 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroMedia from "../components/HeroMedia.astro";
 import { site } from "../config/site";
+import StoryCard from "../components/StoryCard.astro";
+import { getCollection } from "astro:content";
+
+const stories = await getCollection("stories");
+const toDate = (d: unknown) => (d instanceof Date ? d : new Date(String(d)));
+const sorted = stories.slice().sort((a, b) => toDate(b.data.date).getTime() - toDate(a.data.date).getTime());
+const featured = sorted.filter((s) => s.data.featured).slice(0, 2);
+const picks = featured.length === 2 ? featured : sorted.slice(0, 2);
+const formatIt = (d: Date) => d.toLocaleDateString("it-IT", { year: "numeric", month: "long", day: "2-digit" });
 ---
 
 <BaseLayout
@@ -14,15 +23,16 @@ import { site } from "../config/site";
 
     <div class="section-pad relative w-full pb-14 sm:pb-20">
       <div class="max-w-2xl motion-safe:animate-[fadeUp_.35s_ease-out_both]">
-        <p class="text-xs tracking-[0.22em] uppercase text-white/70">Wedding films • Italia</p>
+        <p class="text-xs tracking-[0.22em] uppercase text-white/70">Valentina Angeli — Wedding Filmmaker</p>
 
         <h1 class="mt-4 text-4xl sm:text-6xl font-semibold tracking-tight text-white">
-          Racconto il vostro giorno<br class="hidden sm:block" />
-          con un cuore cinematografico.
+          Uso il mio cuore<br class="hidden sm:block" />
+          per raccontarvi.
         </h1>
 
         <p class="mt-5 max-w-prose text-white/75">
-          Un’esperienza visiva, essenziale e intensa. Niente pose forzate: solo voi, la vostra energia, e la storia che resta.
+          Uso attenzione, tempo e presenza<br />
+          per custodire ciò che accade davvero.
         </p>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -30,7 +40,7 @@ import { site } from "../config/site";
             class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-zinc-900 transition duration-200 hover:opacity-90"
             href={site.cta.primaryHref}
           >
-            {site.cta.primaryLabel}
+            Raccontiamo la vostra storia
           </a>
           <a
             class="inline-flex items-center justify-center rounded-full border border-white/35 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-white/10"
@@ -47,84 +57,103 @@ import { site } from "../config/site";
   <section class="section-pad py-14 sm:py-20">
     <div class="max-w-3xl">
       <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">Come vi racconto</h2>
-      <p class="mt-5 text-zinc-700 max-w-prose">
-        Ogni film nasce dall’ascolto: ritmo, sguardi, dettagli. Un racconto editoriale, elegante, costruito sulla vostra verità.
-      </p>
+      <div class="mt-6 space-y-2 text-zinc-700">
+        <p>Vi accompagno senza chiedervi gesti o pose.</p>
+        <p>Ascolto quello che accade, senza interferire.</p>
+        <p>Vi lascio liberi di essere voi stessi.</p>
+        <p class="pt-2">
+          Il mio lavoro è stare lì mentre le cose succedono.<br />
+          E proteggerle, così come sono.
+        </p>
+      </div>
 
       <div class="mt-8">
         <a class="inline-flex items-center gap-2 text-sm font-medium text-zinc-900 hover:opacity-70 transition duration-200"
-           href="/come-vi-racconto">
-          Scopri l’approccio <span aria-hidden="true">→</span>
+          href="/come-vi-racconto">
+          Leggi come lavoro <span aria-hidden="true">→</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- YOUR STORIES -->
-  <section class="section-pad py-14 sm:py-20 border-t border-zinc-200">
-    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-      <div class="max-w-2xl motion-safe:animate-[fadeUp_.35s_ease-out_both]">
-        <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">Le vostre storie</h2>
-        <p class="mt-5 text-zinc-700 max-w-prose">
-          Sei racconti per entrare nel ritmo. Ogni video è una storia: non una lista di momenti.
-        </p>
-      </div>
+  <div class="border-t border-zinc-200"></div>
 
-      <a class="inline-flex items-center gap-2 text-sm font-medium text-zinc-900 hover:opacity-70 transition duration-200"
-         href="/portfolio">
+  <!-- YOUR STORIES -->
+  <section class="section-pad py-16 sm:py-24">
+    <header class="max-w-2xl">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">Le vostre storie</h2>
+      <p class="mt-5 text-zinc-700 max-w-prose">
+        Ogni film di matrimonio nasce da una relazione reale.
+        Dal tempo passato insieme, dal coraggio di scegliersi ogni giorno.
+      </p>
+    </header>
+    <div class="mt-12 grid gap-7 lg:grid-cols-2">
+      {picks.map((entry) => (
+        <StoryCard
+          href={`/portfolio/${entry.slug}`}
+          title={entry.data.title}
+          excerpt={entry.data.excerpt}
+          location={entry.data.location}
+          dateLabel={formatIt(toDate(entry.data.date))}
+          youtubeId={entry.data.youtubeId}
+          poster={entry.data.poster}
+          featured={entry.data.featured}
+        />
+      ))}
+    </div>
+    <div class="mt-10">
+      <a
+        class="inline-flex items-center gap-2 text-sm font-medium text-zinc-900 hover:opacity-70 transition duration-200"
+        href="/portfolio"
+      >
         Vai al portfolio <span aria-hidden="true">→</span>
       </a>
     </div>
   </section>
 
+  <div class="border-t border-zinc-200"></div>
+
   <!-- TESTIMONIALS -->
-  <section class="section-pad py-14 sm:py-20 border-t border-zinc-200">
+  <section class="section-pad py-16 sm:py-24">
     <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">Parole vere</h2>
-
-    <div class="mt-10 grid gap-6 lg:grid-cols-3">
-      {[
-        {
-          quote: "Ci siamo rivisti in ogni dettaglio. Un film che sembra respirare con noi.",
-          who: "A. & L.",
-        },
-        {
-          quote: "Presenza discreta, sensibilità enorme. Il montaggio ci ha commossi.",
-          who: "G. & M.",
-        },
-        {
-          quote: "Non è un video: è la nostra storia, con un’eleganza che resta.",
-          who: "E. & D.",
-        },
-      ].map((t) => (
-        <figure class="rounded-3xl border border-zinc-200 p-7 sm:p-8">
-          <blockquote class="text-zinc-800 leading-relaxed">“{t.quote}”</blockquote>
-          <figcaption class="mt-5 text-sm text-zinc-500">{t.who}</figcaption>
-        </figure>
-      ))}
-    </div>
-
-    <p class="mt-6 text-sm text-zinc-500">
-      (In futuro: opzionale integrazione di piccole video-reazioni, sempre lazy-loaded.)
+    <p class="mt-5 max-w-prose text-zinc-700">
+      Qui parlano le coppie che ho accompagnato. Di come si sono sentite nel percorso fatto insieme,
+      del clima, della fiducia, dello spazio che hanno avuto per essere sé stesse.
     </p>
+
+    <figure class="mt-10 max-w-3xl">
+      <blockquote class="text-lg sm:text-xl leading-relaxed text-zinc-900">
+        “Ci siamo rivisti in ogni dettaglio. Un film che sembra respirare con noi.”
+      </blockquote>
+      <figcaption class="mt-4 text-sm text-zinc-500">A. & L.</figcaption>
+
+      <div class="mt-8 flex gap-4 text-sm">
+        <a class="text-zinc-900 hover:opacity-70 transition duration-200" href="/portfolio">
+          Leggi altre storie →
+        </a>
+      </div>
+    </figure>
+
   </section>
 
   <!-- FINAL CTA -->
-  <section class="section-pad py-14 sm:py-20 border-t border-zinc-200">
+  <section class="section-pad py-16 sm:py-24">
     <div class="rounded-3xl bg-zinc-950 px-7 py-10 sm:px-10 sm:py-12">
       <div class="max-w-2xl motion-safe:animate-[fadeUp_.35s_ease-out_both]">
         <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
-          Se vi riconoscete in questo ritmo, parliamone.
+          Siete pronti a condividere la vostra storia?
         </h2>
-        <p class="mt-5 text-white/75 max-w-prose">
-          I dettagli (e le opzioni) si raccontano meglio in una call. Niente listini qui: solo una conversazione semplice.
-        </p>
+        <div class="mt-5 space-y-2 text-white/75 max-w-prose">
+          <p>Se sentite che questo modo di raccontare vi somiglia davvero, il primo passo è semplice.</p>
+          <p>Ci prendiamo del tempo. Parliamo. Vediamo se siamo la scelta giusta, per entrambi.</p>
+        </div>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
           <a
             class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-zinc-900 transition duration-200 hover:opacity-90"
             href={site.cta.primaryHref}
           >
-            {site.cta.primaryLabel}
+            Prenota una call conoscitiva
           </a>
           <a
             class="inline-flex items-center justify-center rounded-full border border-white/25 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-white/10"

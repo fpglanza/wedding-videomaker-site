@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { site } from "../../config/site";
+---
+
+<BaseLayout title="Grazie" description="Messaggio inviato. Ti risponderò il prima possibile.">
+  <section class="section-pad py-14 sm:py-20">
+    <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight">Grazie</h1>
+    <p class="mt-5 max-w-prose text-zinc-700">
+      Messaggio inviato. Ti risponderò il prima possibile.
+    </p>
+
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <a
+        class="inline-flex items-center justify-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:opacity-90"
+        href={site.cta.primaryHref}
+      >
+        {site.cta.primaryLabel}
+      </a>
+      <a class="inline-flex items-center justify-center rounded-full border border-zinc-300 px-6 py-3 text-sm font-medium text-zinc-900 transition duration-200 hover:bg-zinc-50"
+         href="/"
+      >
+        Torna alla Home
+      </a>
+    </div>
+  </section>
+</BaseLayout>
